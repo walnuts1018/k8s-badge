@@ -1,0 +1,19 @@
+{
+  "name": "k8s-badge",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/walnuts1018/k8s-badge.git"
+  },
+  "author": "walnuts1018",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/walnuts1018/k8s-badge/issues"
+  },
+  "homepage": "https://github.com/walnuts1018/k8s-badge#readme"
+}
