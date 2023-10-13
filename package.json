@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/walnuts1018/k8s-badge/issues"
   },
-  "homepage": "https://github.com/walnuts1018/k8s-badge#readme"
+  "homepage": "https://github.com/walnuts1018/k8s-badge#readme",
+  "devDependencies": {
+    "@types/node": "^20.8.5",
+    "typescript": "^5.2.2"
+  }
 }
