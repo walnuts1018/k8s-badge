@@ -47,11 +47,19 @@ runs:
         POD_STATUS_SVG_TEXT: ${{ inputs.podStatus-SVG-text }}
         NODE_STATUS_SVG_TEXT: ${{ inputs.nodeStatus-SVG-text }}
 
-    - name: "Upload Artifact"
-      uses: actions/upload-artifact@v3
+    - name: determine username and repository name
+      id: repo-info
+      run: |
+        echo "::set-output name=username::$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 1)"
+        echo "::set-output name=reponame::$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)"
+      shell: bash
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        name: k8s-status-badge
-        path: ${{ steps.svg-gen.outputs.k8sStatus-SVG-Path }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+        destination_dir: ./${{ steps.repo-info.outputs.username }}/${{ steps.repo-info.outputs.reponame }}
 
 branding:
   icon: "user"
