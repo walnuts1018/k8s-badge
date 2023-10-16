@@ -33,7 +33,7 @@ const unhealthyColor = "red";
 const warningColor = "yellow";
 let client;
 try {
-    const kubeconfigPath = core.getInput('kubeconfig-path');
+    const kubeconfigPath = core.getInput('kubeconfig-path') || "C:\\Users\\juglans\\.kube\\config";
     client = new k8sClient.client(kubeconfigPath);
 }
 catch (e) {
@@ -50,51 +50,55 @@ async function getk8sInfo() {
 const badges = new Map();
 function renderSVG() {
     if (k8sStatus) {
+        const k8sStatusText = core.getInput('k8sStatus-SVG-text') || "Kubernetes Status";
         if (k8sStatus.IsK8sSystemHealthy) {
-            badges.set((0, badge_1.renderBadge)("Kubernetes System", "healthy", healthyColor), "k8sStatus");
+            badges.set((0, badge_1.renderBadge)(k8sStatusText, "healthy", healthyColor), "k8sStatus");
         }
         else {
-            badges.set((0, badge_1.renderBadge)("Kubernetes System", "unhealthy", unhealthyColor), "k8sStatus");
+            badges.set((0, badge_1.renderBadge)(k8sStatusText, "unhealthy", unhealthyColor), "k8sStatus");
         }
+        const podStatusText = core.getInput('podStatus-SVG-text') || "Healthy Pods";
         const allPodCount = k8sStatus.HealthyPodCount + k8sStatus.UnhealthyPodCount;
         if (k8sStatus.HealthyPodCount === allPodCount) {
-            badges.set((0, badge_1.renderBadge)("Healthy Pods", `${k8sStatus.HealthyPodCount}/${allPodCount}`, healthyColor), "podStatus");
+            badges.set((0, badge_1.renderBadge)(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, healthyColor), "podStatus");
         }
         else if (k8sStatus.HealthyPodCount / allPodCount >= 3 / 4) {
-            badges.set((0, badge_1.renderBadge)("Healthy Pods", `${k8sStatus.HealthyPodCount}/${allPodCount}`, warningColor), "podStatus");
+            badges.set((0, badge_1.renderBadge)(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, warningColor), "podStatus");
         }
         else {
-            badges.set((0, badge_1.renderBadge)("Healthy Pods", `${k8sStatus.HealthyPodCount}/${allPodCount}`, unhealthyColor), "podStatus");
+            badges.set((0, badge_1.renderBadge)(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, unhealthyColor), "podStatus");
         }
+        const nodeStatusText = core.getInput('nodeStatus-SVG-text') || "Healthy Nodes";
         const allNodeCount = k8sStatus.HealthyNodeCount + k8sStatus.UnhealthyNodeCount;
         if (k8sStatus.HealthyNodeCount === allNodeCount) {
-            badges.set((0, badge_1.renderBadge)("Healthy Nodes", `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, healthyColor), "nodeStatus");
+            badges.set((0, badge_1.renderBadge)(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, healthyColor), "nodeStatus");
         }
         else if (k8sStatus.HealthyNodeCount / allNodeCount >= 0.5) {
-            badges.set((0, badge_1.renderBadge)("Healthy Nodes", `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, warningColor), "nodeStatus");
+            badges.set((0, badge_1.renderBadge)(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, warningColor), "nodeStatus");
         }
         else {
-            badges.set((0, badge_1.renderBadge)("Healthy Nodes", `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, unhealthyColor), "nodeStatus");
+            badges.set((0, badge_1.renderBadge)(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, unhealthyColor), "nodeStatus");
         }
     }
 }
+async function main() {
+    console.log("Getting k8s info...");
+    await getk8sInfo();
+    console.log("Done.");
+    console.log("Rendering SVG...");
+    renderSVG();
+    console.log("Done.");
+    console.log("Saving SVG...");
+    for (const [svg, name] of badges) {
+        fs.writeFileSync(`public/${name}.svg`, svg);
+    }
+    console.log("Done.");
+    core.setOutput("k8sStatus-SVG-Path", "public/k8sStatus.svg");
+    core.setOutput("podStatus-SVG-Path", "public/podStatus.svg");
+    core.setOutput("nodeStatus-SVG-Path", "public/nodeStatus.svg");
+}
 try {
-    (async function () {
-        console.log("Getting k8s info...");
-        await getk8sInfo();
-        console.log("Done.");
-        console.log("Rendering SVG...");
-        renderSVG();
-        console.log("Done.");
-        console.log("Saving SVG...");
-        for (const [svg, name] of badges) {
-            fs.writeFileSync(`public/${name}.svg`, svg);
-        }
-        console.log("Done.");
-        core.setOutput("k8sStatus-SVG-Path", "public/k8sStatus.svg");
-        core.setOutput("podStatus-SVG-Path", "public/podStatus.svg");
-        core.setOutput("nodeStatus-SVG-Path", "public/nodeStatus.svg");
-    });
+    main();
 }
 catch (e) {
     if (e instanceof Error) {

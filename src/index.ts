@@ -10,7 +10,7 @@ const warningColor = "yellow";
 
 let client: k8sClient.client;
 try {
-  const kubeconfigPath = core.getInput('kubeconfig-path');
+  const kubeconfigPath = core.getInput('kubeconfig-path') || "C:\\Users\\juglans\\.kube\\config";
   client = new k8sClient.client(kubeconfigPath);
 } catch (e: unknown) {
   if (e instanceof Error) {
@@ -57,23 +57,25 @@ function renderSVG() {
   }
 }
 
+async function main() {
+  console.log("Getting k8s info...");
+  await getk8sInfo();
+  console.log("Done.");
+  console.log("Rendering SVG...");
+  renderSVG();
+  console.log("Done.");
+  console.log("Saving SVG...");
+  for (const [svg, name] of badges) {
+    fs.writeFileSync(`public/${name}.svg`, svg);
+  }
+  console.log("Done.");
+  core.setOutput("k8sStatus-SVG-Path", "public/k8sStatus.svg");
+  core.setOutput("podStatus-SVG-Path", "public/podStatus.svg");
+  core.setOutput("nodeStatus-SVG-Path", "public/nodeStatus.svg");
+}
+
 try {
-  (async function () {
-    console.log("Getting k8s info...");
-    await getk8sInfo();
-    console.log("Done.");
-    console.log("Rendering SVG...");
-    renderSVG();
-    console.log("Done.");
-    console.log("Saving SVG...");
-    for (const [svg, name] of badges) {
-      fs.writeFileSync(`public/${name}.svg`, svg);
-    }
-    console.log("Done.");
-    core.setOutput("k8sStatus-SVG-Path", "public/k8sStatus.svg");
-    core.setOutput("podStatus-SVG-Path", "public/podStatus.svg");
-    core.setOutput("nodeStatus-SVG-Path", "public/nodeStatus.svg");
-  });
+  main();
 } catch (e: unknown) {
   if (e instanceof Error) {
     core.setFailed("Failed to create badge: " + e.message);

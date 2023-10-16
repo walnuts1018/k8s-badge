@@ -1,6 +1,6 @@
 const makeBadge = require("badge-maker/lib/make-badge");
 
-const k8sIconURL = "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg";
+const k8sIconURL = "./logo.svg";
 
 export function renderBadge(label: string, message: string, messageBackgroundColor: string): string {
   return makeBadge({
