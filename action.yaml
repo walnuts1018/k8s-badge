@@ -1,10 +1,9 @@
-name: "Hello World"
-description: "Greet someone and record the time"
+name: "Create Kubernetes Status Badge"
+description: "Create a status badge for your Kubernetes cluster"
 inputs:
-  who-to-greet: # id of input
-    description: "Who to greet"
+  kubeconfig-path:
+    description: "Path to kubeconfig file"
     required: true
-    default: "World"
 outputs:
   time:
     description: "The time we greeted you"
