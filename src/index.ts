@@ -2,7 +2,7 @@ import * as k8sClient from './k8s';
 import { renderBadge } from './badge';
 const fs = require('fs');
 const core = require('@actions/core');
-const github = require('@actions/github');
+const env = process.env
 
 const healthyColor = "#33ca56";
 const unhealthyColor = "red";
@@ -10,7 +10,7 @@ const warningColor = "yellow";
 
 let client: k8sClient.client;
 try {
-  const kubeconfigPath = core.getInput('kubeconfig-path') || "C:\\Users\\juglans\\.kube\\config";
+  const kubeconfigPath = env.KUBE_CONFIG_PATH || "C:\\Users\\juglans\\.kube\\config";
   client = new k8sClient.client(kubeconfigPath);
 } catch (e: unknown) {
   if (e instanceof Error) {
@@ -28,14 +28,14 @@ async function getk8sInfo() {
 const badges = new Map<string, string>();
 function renderSVG() {
   if (k8sStatus) {
-    const k8sStatusText = core.getInput('k8sStatus-SVG-text') || "Kubernetes Status";
+    const k8sStatusText = env.K8S_STATUS_SVG_TEXT || "Kubernetes Status";
     if (k8sStatus.IsK8sSystemHealthy) {
       badges.set(renderBadge(k8sStatusText, "Healthy", healthyColor), "k8sStatus");
     } else {
       badges.set(renderBadge(k8sStatusText, "Unhealthy", unhealthyColor), "k8sStatus");
     }
 
-    const podStatusText = core.getInput('podStatus-SVG-text') || "Healthy Pods";
+    const podStatusText = env.POD_STATUS_SVG_TEXT || "Healthy Pods";
     const allPodCount = k8sStatus.HealthyPodCount + k8sStatus.UnhealthyPodCount;
     if (k8sStatus.HealthyPodCount === allPodCount) {
       badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, healthyColor), "podStatus");
@@ -45,7 +45,7 @@ function renderSVG() {
       badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, unhealthyColor), "podStatus");
     }
 
-    const nodeStatusText = core.getInput('nodeStatus-SVG-text') || "Healthy Nodes";
+    const nodeStatusText = env.NODE_STATUS_SVG_TEXT || "Healthy Nodes";
     const allNodeCount = k8sStatus.HealthyNodeCount + k8sStatus.UnhealthyNodeCount;
     if (k8sStatus.HealthyNodeCount === allNodeCount) {
       badges.set(renderBadge(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, healthyColor), "nodeStatus");
