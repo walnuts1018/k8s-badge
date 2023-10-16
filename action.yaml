@@ -6,10 +6,13 @@ inputs:
     required: true
   k8sStatus-SVG-text:
     description: "Text to display on the k8s SVG"
+    default: "Kubernetes Status"
   podStatus-SVG-text:
     description: "Text to display on the pod SVG"
+    default: "Healthy Pods"
   nodeStatus-SVG-text:
     description: "Text to display on the node SVG"
+    default: "Healthy Nodes"
 outputs:
   k8sStatus-SVG-Path:
     description: "Path to the generated SVG file"
