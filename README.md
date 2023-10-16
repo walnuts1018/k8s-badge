@@ -2,6 +2,10 @@
 
 Kubernetes ステータスのバッジを作成し、Pages にデプロイする Action です。
 
+![k8s Status](https://walnuts1018.github.io/k8s-badge/k8sStatus.svg)
+![Pod Status](https://walnuts1018.github.io/k8s-badge/podStatus.svg)
+![Node Status](https://walnuts1018.github.io/k8s-badge/nodeStatus.svg)
+
 ## Inputs
 
 | name                | required | description                             |
