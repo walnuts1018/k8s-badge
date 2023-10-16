@@ -52,10 +52,10 @@ function renderSVG() {
     if (k8sStatus) {
         const k8sStatusText = core.getInput('k8sStatus-SVG-text') || "Kubernetes Status";
         if (k8sStatus.IsK8sSystemHealthy) {
-            badges.set((0, badge_1.renderBadge)(k8sStatusText, "healthy", healthyColor), "k8sStatus");
+            badges.set((0, badge_1.renderBadge)(k8sStatusText, "Healthy", healthyColor), "k8sStatus");
         }
         else {
-            badges.set((0, badge_1.renderBadge)(k8sStatusText, "unhealthy", unhealthyColor), "k8sStatus");
+            badges.set((0, badge_1.renderBadge)(k8sStatusText, "Unhealthy", unhealthyColor), "k8sStatus");
         }
         const podStatusText = core.getInput('podStatus-SVG-text') || "Healthy Pods";
         const allPodCount = k8sStatus.HealthyPodCount + k8sStatus.UnhealthyPodCount;
