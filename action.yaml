@@ -26,15 +26,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - id: remember-now-dir
-      run: echo "::set-output name=now-dir::$(pwd)"
-      shell: bash
-
-    - id: change-workingdir
-      run: "cd /home/runner/work"
-      shell: bash
-
-    - id: chckout
+    - id: checkout
       uses: actions/checkout@v2
       with:
         repository: walnuts1018/k8s-badge
@@ -61,10 +53,6 @@ runs:
       with:
         name: k8s-status-badge
         path: /home/runner/work/k8s-status-badge/public/k8sStatus.svg
-
-    - name: "cd"
-      run: "cd ${{ steps.remember-now-dir.outputs.now-dir }}"
-      shell: bash
 
 branding:
   icon: "user"
