@@ -10,7 +10,10 @@ const warningColor = "yellow";
 
 let client: k8sClient.client;
 try {
-  const kubeconfigText: string = env.KUBE_CONFIG || "";
+  const kubeconfigText = env.KUBE_CONFIG;
+  if (!kubeconfigText) {
+    throw new Error("KUBE_CONFIG is not set");
+  }
   client = new k8sClient.client(kubeconfigText);
 } catch (e: unknown) {
   if (e instanceof Error) {
