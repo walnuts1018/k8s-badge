@@ -3,9 +3,9 @@ import * as k8s from '@kubernetes/client-node';
 export class client {
   private config: k8s.KubeConfig;
 
-  constructor(kubeconfigPath: string) {
+  constructor(kubeconfigText: string) {
     this.config = new k8s.KubeConfig();
-    this.config.loadFromFile(kubeconfigPath);
+    this.config.loadFromString(kubeconfigText);
   }
 
   async getInfo(): Promise<k8sStatus> {

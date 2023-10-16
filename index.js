@@ -33,8 +33,8 @@ const unhealthyColor = "red";
 const warningColor = "yellow";
 let client;
 try {
-    const kubeconfigPath = env.KUBE_CONFIG_PATH || "C:\\Users\\juglans\\.kube\\config";
-    client = new k8sClient.client(kubeconfigPath);
+    const kubeconfigText = env.KUBE_CONFIG || "";
+    client = new k8sClient.client(kubeconfigText);
 }
 catch (e) {
     if (e instanceof Error) {

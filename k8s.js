@@ -27,9 +27,9 @@ exports.client = void 0;
 const k8s = __importStar(require("@kubernetes/client-node"));
 class client {
     config;
-    constructor(kubeconfigPath) {
+    constructor(kubeconfigText) {
         this.config = new k8s.KubeConfig();
-        this.config.loadFromFile(kubeconfigPath);
+        this.config.loadFromString(kubeconfigText);
     }
     async getInfo() {
         const api = this.config.makeApiClient(k8s.CoreV1Api);

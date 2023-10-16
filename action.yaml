@@ -1,8 +1,8 @@
 name: "Create Kubernetes Status Badge"
 description: "Create a status badge for your Kubernetes cluster"
 inputs:
-  kubeconfig-path:
-    description: "Path to kubeconfig file"
+  kubeconfig:
+    description: "kubeconfig text"
     required: true
   k8sStatus-SVG-text:
     description: "Text to display on the k8s SVG"
@@ -42,7 +42,7 @@ runs:
       run: node index.js
       shell: bash
       env:
-        KUBE_CONFIG_PATH: ${{ inputs.kubeconfig-path }}
+        KUBE_CONFIG: ${{ inputs.kubeconfig }}
         K8S_STATUS_SVG_TEXT: ${{ inputs.k8sStatus-SVG-text }}
         POD_STATUS_SVG_TEXT: ${{ inputs.podStatus-SVG-text }}
         NODE_STATUS_SVG_TEXT: ${{ inputs.nodeStatus-SVG-text }}

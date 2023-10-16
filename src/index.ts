@@ -10,8 +10,8 @@ const warningColor = "yellow";
 
 let client: k8sClient.client;
 try {
-  const kubeconfigPath = env.KUBE_CONFIG_PATH || "C:\\Users\\juglans\\.kube\\config";
-  client = new k8sClient.client(kubeconfigPath);
+  const kubeconfigText: string = env.KUBE_CONFIG || "";
+  client = new k8sClient.client(kubeconfigText);
 } catch (e: unknown) {
   if (e instanceof Error) {
     core.setFailed("Failed to create k8s client: " + e.message);
