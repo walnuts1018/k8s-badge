@@ -59,7 +59,6 @@ runs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
-        destination_dir: ./${{ steps.repo-info.outputs.username }}/${{ steps.repo-info.outputs.reponame }}
 
 branding:
   icon: "user"
