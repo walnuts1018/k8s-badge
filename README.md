@@ -1,10 +1,11 @@
 # k8s badge
 
-Kubernetes ステータスのバッジを作成し、Pages にデプロイする Action です。
-
+![Last Build](https://github.com/walnuts1018/k8s-badge/actions/workflows/build.yaml/badge.svg)
 ![k8s Status](https://walnuts1018.github.io/k8s-badge/k8sStatus.svg)
 ![Pod Status](https://walnuts1018.github.io/k8s-badge/podStatus.svg)
 ![Node Status](https://walnuts1018.github.io/k8s-badge/nodeStatus.svg)
+
+Kubernetes ステータスのバッジを作成し、Pages にデプロイする Action です。
 
 ## Inputs
 
