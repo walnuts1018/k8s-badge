@@ -33,7 +33,10 @@ const unhealthyColor = "red";
 const warningColor = "yellow";
 let client;
 try {
-    const kubeconfigText = env.KUBE_CONFIG || "";
+    const kubeconfigText = env.KUBE_CONFIG;
+    if (!kubeconfigText) {
+        throw new Error("KUBE_CONFIG is not set");
+    }
     client = new k8sClient.client(kubeconfigText);
 }
 catch (e) {
