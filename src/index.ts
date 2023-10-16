@@ -28,28 +28,31 @@ async function getk8sInfo() {
 const badges = new Map<string, string>();
 function renderSVG() {
   if (k8sStatus) {
+    const k8sStatusText = core.getInput('k8sStatus-SVG-text') || "Kubernetes Status";
     if (k8sStatus.IsK8sSystemHealthy) {
-      badges.set(renderBadge("Kubernetes System", "healthy", healthyColor), "k8sStatus");
+      badges.set(renderBadge(k8sStatusText, "healthy", healthyColor), "k8sStatus");
     } else {
-      badges.set(renderBadge("Kubernetes System", "unhealthy", unhealthyColor), "k8sStatus");
+      badges.set(renderBadge(k8sStatusText, "unhealthy", unhealthyColor), "k8sStatus");
     }
 
+    const podStatusText = core.getInput('podStatus-SVG-text') || "Healthy Pods";
     const allPodCount = k8sStatus.HealthyPodCount + k8sStatus.UnhealthyPodCount;
     if (k8sStatus.HealthyPodCount === allPodCount) {
-      badges.set(renderBadge("Healthy Pods", `${k8sStatus.HealthyPodCount}/${allPodCount}`, healthyColor), "podStatus");
+      badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, healthyColor), "podStatus");
     } else if (k8sStatus.HealthyPodCount / allPodCount >= 3 / 4) {
-      badges.set(renderBadge("Healthy Pods", `${k8sStatus.HealthyPodCount}/${allPodCount}`, warningColor), "podStatus");
+      badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, warningColor), "podStatus");
     } else {
-      badges.set(renderBadge("Healthy Pods", `${k8sStatus.HealthyPodCount}/${allPodCount}`, unhealthyColor), "podStatus");
+      badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, unhealthyColor), "podStatus");
     }
 
+    const nodeStatusText = core.getInput('nodeStatus-SVG-text') || "Healthy Nodes";
     const allNodeCount = k8sStatus.HealthyNodeCount + k8sStatus.UnhealthyNodeCount;
     if (k8sStatus.HealthyNodeCount === allNodeCount) {
-      badges.set(renderBadge("Healthy Nodes", `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, healthyColor), "nodeStatus");
+      badges.set(renderBadge(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, healthyColor), "nodeStatus");
     } else if (k8sStatus.HealthyNodeCount / allNodeCount >= 0.5) {
-      badges.set(renderBadge("Healthy Nodes", `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, warningColor), "nodeStatus");
+      badges.set(renderBadge(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, warningColor), "nodeStatus");
     } else {
-      badges.set(renderBadge("Healthy Nodes", `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, unhealthyColor), "nodeStatus");
+      badges.set(renderBadge(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, unhealthyColor), "nodeStatus");
     }
   }
 }

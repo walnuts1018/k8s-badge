@@ -4,9 +4,19 @@ inputs:
   kubeconfig-path:
     description: "Path to kubeconfig file"
     required: true
+  k8sStatus-SVG-text:
+    description: "Text to display on the k8s SVG"
+  podStatus-SVG-text:
+    description: "Text to display on the pod SVG"
+  nodeStatus-SVG-text:
+    description: "Text to display on the node SVG"
 outputs:
-  time:
-    description: "The time we greeted you"
+  k8sStatus-SVG-Path:
+    description: "Path to the generated SVG file"
+  podStatus-SVG-Path:
+    description: "Path to the generated SVG file"
+  nodeStatus-SVG-Path:
+    description: "Path to the generated SVG file"
 runs:
   using: "node20"
   main: "index.js"
