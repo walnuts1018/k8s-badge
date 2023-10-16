@@ -13,6 +13,9 @@ inputs:
   nodeStatus-SVG-text:
     description: "Text to display on the node SVG"
     default: "Healthy Nodes"
+  github_token:
+    description: "GitHub Token"
+    required: true
 outputs:
   k8sStatus-SVG-Path:
     description: "Path to the generated SVG file"
@@ -47,17 +50,10 @@ runs:
         POD_STATUS_SVG_TEXT: ${{ inputs.podStatus-SVG-text }}
         NODE_STATUS_SVG_TEXT: ${{ inputs.nodeStatus-SVG-text }}
 
-    - name: determine username and repository name
-      id: repo-info
-      run: |
-        echo "::set-output name=username::$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 1)"
-        echo "::set-output name=reponame::$(echo ${GITHUB_REPOSITORY} | cut -d '/' -f 2)"
-      shell: bash
-
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.github_token }}
         publish_dir: ./public
 
 branding:
