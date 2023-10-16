@@ -37,6 +37,7 @@ runs:
     - id: chckout
       uses: actions/checkout@v2
       with:
+        repository: walnuts1018/k8s-badge
         path: "k8s-status-badge"
 
     - uses: actions/setup-node@v3
