@@ -42,7 +42,7 @@ runs:
       run: node index.js
       shell: bash
       env:
-        KUBECONFIG_PATH: ${{ inputs.kubeconfig-path }}
+        KUBE_CONFIG_PATH: ${{ inputs.kubeconfig-path }}
         K8S_STATUS_SVG_TEXT: ${{ inputs.k8sStatus-SVG-text }}
         POD_STATUS_SVG_TEXT: ${{ inputs.podStatus-SVG-text }}
         NODE_STATUS_SVG_TEXT: ${{ inputs.nodeStatus-SVG-text }}
