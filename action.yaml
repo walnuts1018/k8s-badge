@@ -13,13 +13,51 @@ inputs:
   nodeStatus-SVG-text:
     description: "Text to display on the node SVG"
     default: "Healthy Nodes"
+  git-username:
+    description: "Username for git commit"
+    required: true
+    default: "github-actions[bot]"
+  git-email:
+    description: "Email for git commit"
+    required: true
+    default: "41898282+github-actions[bot]@users.noreply.github.com"
 outputs:
   k8sStatus-SVG-Path:
     description: "Path to the generated SVG file"
+    value: ${{ steps.svg-gen.outputs.k8sStatus-SVG-Path }}
   podStatus-SVG-Path:
     description: "Path to the generated SVG file"
+    value: ${{ steps.svg-gen.outputs.podStatus-SVG-Path }}
   nodeStatus-SVG-Path:
     description: "Path to the generated SVG file"
+    value: ${{ steps.svg-gen.outputs.nodeStatus-SVG-Path }}
 runs:
-  using: "node20"
-  main: "index.js"
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - run: npm install
+      shell: bash
+
+    - id: svg-gen
+      run: node index.js
+      shell: bash
+      with:
+        kubeconfig-path: ${{ inputs.kubeconfig-path }}
+        k8sStatus-SVG-text: ${{ inputs.k8sStatus-SVG-text }}
+        podStatus-SVG-text: ${{ inputs.podStatus-SVG-text }}
+        nodeStatus-SVG-text: ${{ inputs.nodeStatus-SVG-text }}
+
+    - run: |
+        set -x
+        git config user.name ${{ inputs.git-username }}
+        git config user.email ${{ inputs.git-email }}
+        git add .
+        git commit --author=. -m 'generated'
+        git push
+      shell: bash
+branding:
+  icon: "user"
+  color: "blue"
