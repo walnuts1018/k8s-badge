@@ -1,6 +1,8 @@
 import * as k8sClient from './k8s';
 import { renderBadge } from './badge';
+
 const fs = require('fs');
+const path = require('path');
 const core = require('@actions/core');
 const env = process.env
 
@@ -72,9 +74,10 @@ async function main() {
     fs.writeFileSync(`public/${name}.svg`, svg);
   }
   console.log("Done.");
-  core.setOutput("k8sStatus-SVG-Path", "public/k8sStatus.svg");
-  core.setOutput("podStatus-SVG-Path", "public/podStatus.svg");
-  core.setOutput("nodeStatus-SVG-Path", "public/nodeStatus.svg");
+
+  core.setOutput("k8sStatus-SVG-Path", path.resolve(__dirname, "./public/k8sStatus.svg")); 7
+  core.setOutput("podStatus-SVG-Path", path.resolve(__dirname, "./public/podStatus.svg"));
+  core.setOutput("nodeStatus-SVG-Path", path.resolve(__dirname, "./public/nodeStatus.svg"));
 }
 
 try {
