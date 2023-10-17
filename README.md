@@ -62,11 +62,23 @@ Kubernetes の API サーバーにアクセスできるかどうかを示しま�
 サンプル
 
 ```yaml
-name: k8s badge Build
+name: k8s badge build
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0/10 * * * *" # 10分ごとに実行
+    - cron: '0/10 * * * *'
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   k8s-badge-build:
     name: k8s badge build
@@ -81,7 +93,7 @@ jobs:
           args: "--accept-routes"
 
       - name: gen svg
-        uses: walnuts1018/k8s-badge@v1
+        uses: walnuts1018/k8s-badge@v1.1.0
         with:
           kubeconfig: ${{ secrets.Kubeconfig }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
