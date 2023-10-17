@@ -59,6 +59,10 @@ runs:
       id: deployment
       uses: actions/deploy-pages@v2.0.4
 
+    - name: purge image cache
+      uses: koki-develop/hub-purge-action@v1
+      continue-on-error: true
+
 branding:
   icon: "user"
   color: "blue"
