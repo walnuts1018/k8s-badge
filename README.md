@@ -1,9 +1,9 @@
 # k8s badge
 
-![Last Build](https://github.com/walnuts1018/k8s-badge/actions/workflows/build.yaml/badge.svg)
-![k8s Status](https://walnuts1018.github.io/infra/k8sStatus.svg)
-![Pod Status](https://walnuts1018.github.io/infra/podStatus.svg)
-![Node Status](https://walnuts1018.github.io/infra/nodeStatus.svg)
+[![Last Build](https://github.com/walnuts1018/k8s-badge/actions/workflows/build.yaml/badge.svg)](https://github.com/walnuts1018/k8s-badge/actions/workflows/build.yaml/badge.svg)
+[![k8s Status](https://walnuts1018.github.io/infra/k8sStatus.svg)](https://walnuts1018.github.io/infra/k8sStatus.svg)
+[![Pod Status](https://walnuts1018.github.io/infra/podStatus.svg)](https://walnuts1018.github.io/infra/podStatus.svg)
+[![Node Status](https://walnuts1018.github.io/infra/nodeStatus.svg)](https://walnuts1018.github.io/infra/nodeStatus.svg)
 
 Kubernetes ステータスのバッジを作成し、Pages にデプロイする Action です。
 
