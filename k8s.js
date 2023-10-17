@@ -32,8 +32,8 @@ class client {
         this.config.loadFromString(kubeconfigText);
     }
     async getInfo() {
+        const api = this.config.makeApiClient(k8s.CoreV1Api);
         try {
-            const api = this.config.makeApiClient(k8s.CoreV1Api);
             const pods = (await api.listNamespacedPod('')).body.items;
             const healthyPodCount = pods.filter(pod => pod.status?.phase === "Running").length;
             const unhealthyPodCount = pods.filter(pod => pod.status?.phase === "Pending" || pod.status?.phase === "Failed").length;
