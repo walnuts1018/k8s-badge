@@ -50,11 +50,14 @@ runs:
         POD_STATUS_SVG_TEXT: ${{ inputs.podStatus-SVG-text }}
         NODE_STATUS_SVG_TEXT: ${{ inputs.nodeStatus-SVG-text }}
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        github_token: ${{ inputs.github_token }}
-        publish_dir: ./public
+        path: './public'
+          
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2.0.4
 
 branding:
   icon: "user"
