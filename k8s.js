@@ -32,24 +32,39 @@ class client {
         this.config.loadFromString(kubeconfigText);
     }
     async getInfo() {
-        const api = this.config.makeApiClient(k8s.CoreV1Api);
-        const pods = (await api.listNamespacedPod('')).body.items;
-        const healthyPodCount = pods.filter(pod => pod.status?.phase === "Running").length;
-        const unhealthyPodCount = pods.filter(pod => pod.status?.phase === "Pending" || pod.status?.phase === "Failed").length;
-        const nodes = (await api.listNode()).body.items;
-        const healthyNodeCount = nodes.filter(node => node.status?.conditions?.some(condition => condition.type === "Ready" && condition.status === "True")).length;
-        const unhealthyNodeCount = nodes.filter(node => node.status?.conditions?.some(condition => condition.type === "Ready" && (condition.status === "False" || condition.status === "Unknown"))).length;
-        return {
-            IsK8sSystemHealthy: true,
-            HealthyPodCount: healthyPodCount,
-            UnhealthyPodCount: unhealthyPodCount,
-            HealthyNodeCount: healthyNodeCount,
-            UnhealthyNodeCount: unhealthyNodeCount,
-            CPUUsageCores: 0,
-            MemoryUsageMegaBytes: 0,
-            CPUAvailableCores: 0,
-            MemoryAvailableMegaBytes: 0
-        };
+        try {
+            const api = this.config.makeApiClient(k8s.CoreV1Api);
+            const pods = (await api.listNamespacedPod('')).body.items;
+            const healthyPodCount = pods.filter(pod => pod.status?.phase === "Running").length;
+            const unhealthyPodCount = pods.filter(pod => pod.status?.phase === "Pending" || pod.status?.phase === "Failed").length;
+            const nodes = (await api.listNode()).body.items;
+            const healthyNodeCount = nodes.filter(node => node.status?.conditions?.some(condition => condition.type === "Ready" && condition.status === "True")).length;
+            const unhealthyNodeCount = nodes.filter(node => node.status?.conditions?.some(condition => condition.type === "Ready" && (condition.status === "False" || condition.status === "Unknown"))).length;
+            return {
+                IsK8sSystemHealthy: true,
+                HealthyPodCount: healthyPodCount,
+                UnhealthyPodCount: unhealthyPodCount,
+                HealthyNodeCount: healthyNodeCount,
+                UnhealthyNodeCount: unhealthyNodeCount,
+                CPUUsageCores: 0,
+                MemoryUsageMegaBytes: 0,
+                CPUAvailableCores: 0,
+                MemoryAvailableMegaBytes: 0
+            };
+        }
+        catch (e) {
+            return {
+                IsK8sSystemHealthy: false,
+                HealthyPodCount: 0,
+                UnhealthyPodCount: 0,
+                HealthyNodeCount: 0,
+                UnhealthyNodeCount: 0,
+                CPUUsageCores: 0,
+                MemoryUsageMegaBytes: 0,
+                CPUAvailableCores: 0,
+                MemoryAvailableMegaBytes: 0
+            };
+        }
     }
 }
 exports.client = client;

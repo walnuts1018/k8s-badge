@@ -1,9 +1,9 @@
 # k8s badge
 
 ![Last Build](https://github.com/walnuts1018/k8s-badge/actions/workflows/build.yaml/badge.svg)
-![k8s Status](https://walnuts1018.github.io/k8s-badge/k8sStatus.svg)
-![Pod Status](https://walnuts1018.github.io/k8s-badge/podStatus.svg)
-![Node Status](https://walnuts1018.github.io/k8s-badge/nodeStatus.svg)
+![k8s Status](https://walnuts1018.github.io/infra/k8sStatus.svg)
+![Pod Status](https://walnuts1018.github.io/infra/podStatus.svg)
+![Node Status](https://walnuts1018.github.io/infra/nodeStatus.svg)
 
 Kubernetes ステータスのバッジを作成し、Pages にデプロイする Action です。
 
@@ -16,6 +16,32 @@ Kubernetes ステータスのバッジを作成し、Pages にデプロイする
 | k8sStatus-SVG-text  |          | k8s Status のラベル部分の文字列         |
 | podStatus-SVG-text  |          | Pod Status のラベル部分の文字列         |
 | nodeStatus-SVG-text |          | Node Status のラベル部分の文字列        |
+
+## 完成 SVG
+
+### k8s Status
+
+![k8s Status](./public/k8sStatus-Healthy.svg)
+
+![k8s Status](./public/k8sStatus-Unhealthy.svg)
+
+Kubernetes の API サーバーにアクセスできるかどうかを示します。
+
+### Pod Status
+
+![Pod Status](./public/podStatus-Healthy.svg)
+
+![Pod Status](./public/podStatus-Warning.svg)
+
+![Pod Status](./public/podStatus-Unhealthy.svg)
+
+### Node Status
+
+![Node Status](./public/nodeStatus-Healthy.svg)
+
+![Node Status](./public/nodeStatus-Warning.svg)
+
+![Node Status](./public/nodeStatus-Unhealthy.svg)
 
 ## Getting Started
 

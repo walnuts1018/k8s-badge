@@ -12,7 +12,7 @@ const warningColor = "yellow";
 
 let client: k8sClient.client;
 try {
-  const kubeconfigText = env.KUBE_CONFIG;
+  const kubeconfigText = env.KUBE_CONFIG || fs.readFileSync(path.resolve("C:\\Users\\juglans\\.kube\\config"), { encoding: "utf-8" });
   if (!kubeconfigText) {
     throw new Error("KUBE_CONFIG is not set");
   }
@@ -42,7 +42,9 @@ function renderSVG() {
 
     const podStatusText = env.POD_STATUS_SVG_TEXT || "Healthy Pods";
     const allPodCount = k8sStatus.HealthyPodCount + k8sStatus.UnhealthyPodCount;
-    if (k8sStatus.HealthyPodCount === allPodCount) {
+    if (allPodCount === 0) {
+      badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, unhealthyColor), "podStatus");
+    } else if (k8sStatus.HealthyPodCount === allPodCount) {
       badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, healthyColor), "podStatus");
     } else if (k8sStatus.HealthyPodCount / allPodCount >= 3 / 4) {
       badges.set(renderBadge(podStatusText, `${k8sStatus.HealthyPodCount}/${allPodCount}`, warningColor), "podStatus");
@@ -52,7 +54,9 @@ function renderSVG() {
 
     const nodeStatusText = env.NODE_STATUS_SVG_TEXT || "Healthy Nodes";
     const allNodeCount = k8sStatus.HealthyNodeCount + k8sStatus.UnhealthyNodeCount;
-    if (k8sStatus.HealthyNodeCount === allNodeCount) {
+    if (allNodeCount === 0) {
+      badges.set(renderBadge(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, unhealthyColor), "nodeStatus");
+    } else if (k8sStatus.HealthyNodeCount === allNodeCount) {
       badges.set(renderBadge(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, healthyColor), "nodeStatus");
     } else if (k8sStatus.HealthyNodeCount / allNodeCount >= 0.5) {
       badges.set(renderBadge(nodeStatusText, `${k8sStatus.HealthyNodeCount}/${allNodeCount}`, warningColor), "nodeStatus");
@@ -66,16 +70,18 @@ async function main() {
   console.log("Getting k8s info...");
   await getk8sInfo();
   console.log("Done.");
+
   console.log("Rendering SVG...");
   renderSVG();
   console.log("Done.");
+
   console.log("Saving SVG...");
   for (const [svg, name] of badges) {
     fs.writeFileSync(`public/${name}.svg`, svg);
   }
   console.log("Done.");
 
-  core.setOutput("k8sStatus-SVG-Path", path.resolve(__dirname, "./public/k8sStatus.svg")); 7
+  core.setOutput("k8sStatus-SVG-Path", path.resolve(__dirname, "./public/k8sStatus.svg"));
   core.setOutput("podStatus-SVG-Path", path.resolve(__dirname, "./public/podStatus.svg"));
   core.setOutput("nodeStatus-SVG-Path", path.resolve(__dirname, "./public/nodeStatus.svg"));
 }
