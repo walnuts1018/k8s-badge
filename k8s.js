@@ -25,6 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.client = void 0;
 const k8s = __importStar(require("@kubernetes/client-node"));
+const timeoutSecond = 120;
 class client {
     config;
     constructor(kubeconfigText) {
@@ -34,10 +35,10 @@ class client {
     async getInfo() {
         const api = this.config.makeApiClient(k8s.CoreV1Api);
         try {
-            const pods = (await api.listNamespacedPod('')).body.items;
+            const pods = (await api.listNamespacedPod('', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, timeoutSecond)).body.items;
             const healthyPodCount = pods.filter(pod => pod.status?.phase === "Running").length;
             const unhealthyPodCount = pods.filter(pod => pod.status?.phase === "Pending" || pod.status?.phase === "Failed").length;
-            const nodes = (await api.listNode()).body.items;
+            const nodes = (await api.listNode(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, timeoutSecond)).body.items;
             const healthyNodeCount = nodes.filter(node => node.status?.conditions?.some(condition => condition.type === "Ready" && condition.status === "True")).length;
             const unhealthyNodeCount = nodes.filter(node => node.status?.conditions?.some(condition => condition.type === "Ready" && (condition.status === "False" || condition.status === "Unknown"))).length;
             return {
