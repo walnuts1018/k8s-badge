@@ -93,7 +93,7 @@ jobs:
           args: "--accept-routes"
 
       - name: gen svg
-        uses: walnuts1018/k8s-badge@v1.1.2
+        uses: walnuts1018/k8s-badge@v1
         with:
           kubeconfig: ${{ secrets.Kubeconfig }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
