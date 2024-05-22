@@ -20,15 +20,15 @@
   },
   "homepage": "https://github.com/walnuts1018/k8s-badge#readme",
   "devDependencies": {
-    "@types/node": "^20.8.5",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "@types/node": "^20.12.12",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
-    "@kubernetes/client-node": "^0.19.0",
+    "@kubernetes/client-node": "^0.21.0",
     "badge-maker": "^3.3.1"
   }
 }
