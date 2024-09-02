@@ -34,7 +34,7 @@ runs:
       with:
         repository: walnuts1018/k8s-badge
 
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
 
@@ -51,13 +51,13 @@ runs:
         NODE_STATUS_SVG_TEXT: ${{ inputs.nodeStatus-SVG-text }}
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v3
       with:
         path: './public'
           
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v2.0.4
+      uses: actions/deploy-pages@v4.0.5
 
     - name: purge image cache
       uses: koki-develop/hub-purge-action@v1
