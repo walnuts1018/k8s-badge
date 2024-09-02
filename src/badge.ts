@@ -1,7 +1,7 @@
 const makeBadge = require("badge-maker/lib/make-badge");
 const fs = require("fs");
 const path = require("path");
-const k8sIconURL = fs.readFileSync(path.resolve(__dirname, "./public/k8s.svg"), { encoding: "base64" });
+const k8sIconURL = fs.readFileSync(path.resolve("./public/k8s.svg"), { encoding: "base64" });
 
 export function renderBadge(label: string, message: string, messageBackgroundColor: string): string {
   return makeBadge({
