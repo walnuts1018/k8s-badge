@@ -5,8 +5,8 @@ on:
       - main
   workflow_dispatch:
 jobs:
-  npmBuild:
-    name: npm build
+  build:
+    name: yarn build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
+          cache: "yarn"
 
       - name: cache node_modules
         uses: actions/cache@v3
@@ -27,12 +27,12 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: npm-install
+      - name: yarn-install
         if: ${{ steps.node_modules.outputs.cache-hit != 'true' }}
-        run: npm install
+        run: yarn install
 
-      - name: npm-build
-        run: npm run build
+      - name: yarn-build
+        run: yarn build
 
       - name: Diff
         id: diff

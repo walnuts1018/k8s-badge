@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderBadge = void 0;
+exports.renderBadge = renderBadge;
 const makeBadge = require("badge-maker/lib/make-badge");
 const fs = require("fs");
 const path = require("path");
@@ -15,4 +15,3 @@ function renderBadge(label, message, messageBackgroundColor) {
         style: "plastic"
     });
 }
-exports.renderBadge = renderBadge;

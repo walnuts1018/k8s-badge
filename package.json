@@ -2,9 +2,9 @@
   "name": "k8s-badge",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./out/index.js",
   "scripts": {
-    "start": "npm run build:live",
+    "start": "yarn build:live",
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/*.ts' --exec \"ts-node\" src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/walnuts1018/k8s-badge#readme",
   "devDependencies": {
-    "@types/node": "^20.12.12",
+    "@types/node": "^22.5.2",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
@@ -29,6 +29,6 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@kubernetes/client-node": "^0.21.0",
-    "badge-maker": "^3.3.1"
+    "badge-maker": "^4.0.0"
   }
 }
