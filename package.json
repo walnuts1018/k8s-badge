@@ -29,6 +29,6 @@
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",
     "@kubernetes/client-node": "^0.22.0",
-    "badge-maker": "^4.0.0"
+    "badge-maker": "^4.1.0"
   }
 }
