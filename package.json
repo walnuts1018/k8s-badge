@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/walnuts1018/k8s-badge#readme",
   "devDependencies": {
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.7.5",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
