@@ -51,7 +51,7 @@ runs:
         NODE_STATUS_SVG_TEXT: ${{ inputs.nodeStatus-SVG-text }}
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         path: './public'
           
